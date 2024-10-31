@@ -38,6 +38,15 @@
 - **Asynchronous Processing**:
   - Ensures that chat processing does not block the main server thread, maintaining optimal performance.
 
+- **Hot-Swap Profanity Filtering Modes**:
+  - Switch between `off`, `regex`, and `api` profanity filtering modes dynamically during server runtime.
+  - Modes can be changed via configuration file or using the `/chatit mode` command.
+
+- **Custom Private Messages**:
+  - Replaces default `/w`, `/msg`, `/tell` commands with custom implementations.
+  - Enhanced formatting and additional features for private messaging.
+
+
 ## Installation
 
 ### Prerequisites
@@ -76,6 +85,24 @@
   - **Enabled (`adult=true`)**: The player can send and receive messages containing profanity.
   - **Disabled (`adult=false`)**: The player cannot send or receive messages containing profanity.
 
+#### `/chatit mode <mode>`
+
+- **Description**: Changes the profanity filtering mode.
+- **Usage**: `/chatit mode (off|regex|api)`
+- **Permissions**: Restricted to operators or users with specific permissions.
+- **Effects**:
+  - **off**: Disables profanity filtering.
+  - **regex**: Uses regex patterns for profanity detection.
+  - **api**: Uses external API for profanity detection.
+
+#### Custom Private Messages
+
+- **Description**: Replaces the default `/w`, `/msg`, `/tell` commands with enhanced custom private messaging.
+- **Usage**: `/w <player> <message>`, `/msg <player> <message>`, `/tell <player> <message>`
+- **Features**:
+  - Improved message formatting with color coding.
+  - Additional validations and restrictions.
+
 ### Chat Functionality
 
 - **Global Chat**:
@@ -113,7 +140,16 @@ regex = true
 profanity_threshold = 0.5
 
 # Regular expression for profanity detection
-profanity_regex = "(?iu)\\b(?:(?:(?:у|[нз]а|(?:хитро|не)?вз?[ыьъ]|с[ьъ]|(?:и|ра)[зс]ъ?|(?:.\\B)+?[оаеи-])-?)?(?:[её](?:б(?!о[рй]|рач)|п[уа](?:ц|тс))|и[пб][ае][тцд][ьъ]).*?|(?:(?:н[иеа]|(?:ра|и)[зс]|[зд]?[ао](?:т|дн[оа])?|с(?:м[еи])?|а[пб]ч|в[ъы]?|пр[еи])-?)?ху(?:[яйиеёю]|л+и(?!ган)).*?|бл(?:[эя]|еа?)(?:[дт][ьъ]?)?|\\S*?(?:п(?:[иеё]зд|ид[аое]?р|ед(?:р(?!о)|[аое]р|ик)|охую)|бля(?:[дбц]|тс)|[ое]ху[яйиеё]|хуйн).*?|(?:о[тб]?|про|на|вы)?м(?:анд(?:[ауеыи](?:л(?:и[сзщ])?[ауеиы])?|ой|[ао]в.*?|юк(?:ов|[ауи])?|е[нт]ь|ища)|уд(?:[яаиое].+?|е?н(?:[ьюия]|ей))|[ао]л[ао]ф[ьъ](?:[яиюе]|[еёо]й))|елд[ауые].*?|ля[тд]ь|(?:[нз]а|по)х)\\b"
+profanity_regex = "(?iu)\\b(?:(?:(?:у|[нз]а|(?:хитро|не)?вз?[ыьъ]|с[ьъ]|(?:и|ра)[зс]ъ?|(?:.\\B)+?[оаеи-])-?)?(?:[её](?:б(?!о[рй]|рач)|п[уа](?:ц|тс))|и[пб][ае][тцд][ьъ]).*?|(?:(?:н[иеа]|(?:ра|и)[зс]|[зд]?[ао](?:т|дн[оа])?|с(?:м[еи])?|а[пб]ч|в[ъы]?|пр[еи])-?)?ху(?:[яйиеёю]|л+и(?!ган)).*?|бл(?:[эя]|еа?)(?:[дт][ьъ]?)?|\\S*?(?:п(?:[иеё]зд|ид[аое]?р|ед(?:р(?!о)|[аое]р|ик)|охую)|бля(?:[дбц]|тс)|[ое]ху[яйиеё]|хуйн).*?|(?:о[тб]?|про|на|вы)?м(?:анд(?:[ауеыи](?:л(?:и[сзщ])?[ауеиы])?|ой|[ао]в.*?|юк(?:ов|[ауи])?|е[нт]ь|ища)|уд(?:[яаиое].+?|е?н(?:[ьюия]|ей))|[ао]л[ао]ф[ьъ](?:[яиюе]|[еёо]й))|елд[ауые].*?|ля[тд]ь|(?:[нз]а|по)х)\\b)"
+
+# Profanity filtering mode: off, regex, api
+profanity_mode = "api"
+
+# Message displayed when profanity is detected and blocked.
+message_adult = "Вы пытаетесь использовать ненормативную лексику в своем сообщении."
+
+# Message displayed when no players are nearby to receive the local message.
+message_local = "Вас никто не услышал, поставьте ! перед сообщением."
 ```
 
 ## API Requirements
@@ -128,4 +164,4 @@ The external API used for profanity checking must adhere to the following specif
   }
   ```
   
-- **Response**: Returns a floating-point number between 0.0 and 1.0 representing the profanity score of the provided text.
+- **Response**: Returns a JSON object with a `toxicity_score` field containing the floating-point number between 0.0 and 1.0 representing the profanity score of the provided text.
