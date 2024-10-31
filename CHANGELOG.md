@@ -4,6 +4,82 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.9] - 2024-10-31
+
+### Added
+
+- **Config.java**:
+  - Added hot-swap profanity filtering modes (`off`, `regex`, `api`).
+  - Implemented the ability to change profanity filtering mode during server runtime using the command `/chatit mode (off|regex|api)`.
+
+- **ChatITCommand.java**:
+  - Added custom private messages to replace `/w`, `/tell`, `/msg` commands.
+  - Updated the logic for sending and formatting private messages.
+
+### Changed
+
+- **ProfanityChecker.java**:
+  - Updated profanity checking logic to accommodate new filtering modes.
+
+## [0.1.8] - 2024-10-30
+
+### Changed
+
+- **ChatEventHandler.java**:
+  - Change message color from white to yellow.
+
+## [0.1.7] - 2024-10-23
+
+### Changed
+
+- **ProfanityChecker.java**:
+  - Set HTTP version to HTTP/1.1 for HttpClient.
+
+## [0.1.6] - 2024-10-21
+
+### Fixed
+
+- **Global Chat Issue**:
+  - Resolved bugs affecting the functionality of the global chat.
+
+## [0.1.5] - 2024-10-21
+
+### Fixed
+
+- **Local Chat Issue**:
+  - Resolved bugs affecting the functionality of the local chat.
+
+## [0.1.4] - 2024-10-21
+
+### Added
+
+- **Console Error Logging**:
+  - Implemented comprehensive error logging to the console.
+  - Facilitates easier debugging and monitoring by providing detailed error messages during runtime.
+
+- **Configurable Message Text**:
+  - Introduced the ability to customize message texts via configuration.
+  - Users can now modify the default messages to better fit their server's communication style.
+
+### Fixed
+
+- **Tick Timeout Error**:
+  - Resolved the tick timeout issue that caused the server to lag or crash under high load.
+  - Enhanced the stability and performance of the mod by ensuring smoother execution of tick cycles.
+
+### Changed
+
+- **Renamed Command Class**:
+  - Renamed the command class from `ChatitCommand.java` to `ChatITCommand.java`.
+  - Improves consistency and readability within the codebase, aligning with naming conventions.
+
+### Summary of Changes
+
+- **Enhanced Debugging**: With the addition of console error logs, developers can now trace and fix issues more efficiently.
+- **Increased Configurability**: Allowing message texts to be configured provides greater flexibility for server administrators.
+- **Improved Stability**: Fixing the tick timeout error ensures that the mod runs more reliably, even under heavy usage.
+- **Codebase Refinement**: Renaming the command class contributes to a more organized and maintainable code structure.
+
 ## [0.1.3] - 2024-10-21
 
 ### Added
